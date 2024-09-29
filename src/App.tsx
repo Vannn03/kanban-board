@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import axios from "./utils/axiosInstance";
-import { FaCircleCheck } from "react-icons/fa6";
-import SurveyDialogMenu from "./components/SurveyDialogMenu";
 import AddNewGroup from "./components/modals/AddNewGroup";
-import CreateTask from "./components/modals/CreateTask";
+import { DragDropContext, DropResult } from "@hello-pangea/dnd"; // Import drag-and-drop components
+import DragDropItem from "./components/DragDropItem";
 
-type TodosType = {
+export type TodosType = {
     id: number;
     title: string;
     created_by: string;
@@ -16,7 +15,7 @@ type TodosType = {
     items: ItemsType[]; // Include items in TodosType
 };
 
-type ItemsType = {
+export type ItemsType = {
     id: number;
     name: string;
     done?: boolean;
@@ -62,15 +61,53 @@ const App = () => {
         fetchTodosAndItems();
     }, []);
 
-    // Function to get color class based on index
-    const getColorClass = (index: number) => {
-        const colors = [
-            "bg-color-primary/5 text-color-primary border-color-primary",
-            "bg-color-secondary/5 text-color-secondary border-color-secondary",
-            "bg-color-danger/5 text-color-danger border-color-danger",
-            "bg-color-success/5 text-color-success border-color-success",
-        ];
-        return colors[index % colors.length];
+    const onDragEnd = async (result: DropResult) => {
+        const { source, destination } = result;
+
+        if (!destination) return; // If no destination, do nothing
+
+        if (
+            source.droppableId === destination.droppableId &&
+            source.index === destination.index
+        ) {
+            return; // If dropped in the same place, do nothing
+        }
+
+        const sourceTodoIndex = todos.findIndex(
+            (todo) => todo.id.toString() === source.droppableId
+        );
+        const destinationTodoIndex = todos.findIndex(
+            (todo) => todo.id.toString() === destination.droppableId
+        );
+
+        // Clone the source and destination Todos
+        const sourceTodo = { ...todos[sourceTodoIndex] };
+        const destinationTodo = { ...todos[destinationTodoIndex] };
+
+        // Remove item from source Todo
+        const [movedItem] = sourceTodo.items.splice(source.index, 1);
+        // Update the todo_id of the item
+        movedItem.todo_id = parseInt(destination.droppableId);
+
+        // Add item to the destination Todo
+        destinationTodo.items.splice(destination.index, 0, movedItem);
+
+        // Update the state with new Todos
+        const updatedTodos = [...todos];
+        updatedTodos[sourceTodoIndex] = sourceTodo;
+        updatedTodos[destinationTodoIndex] = destinationTodo;
+        setTodos(updatedTodos);
+
+        try {
+            await axios.put(
+                `${import.meta.env.VITE_RAKAMIN_BASE_URL}/todos/${
+                    source.droppableId
+                }/items/${movedItem.id}`,
+                { target_todo_id: destination.droppableId }
+            );
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     return (
@@ -79,92 +116,18 @@ const App = () => {
                 <h1 className="text-lg">Product Roadmap</h1>
                 <AddNewGroup />
             </header>
-            <div className="grid grid-cols-4 gap-4 p-6">
-                {/* DISPLAY ALL TODOS */}
-                {todos?.map((todo, index) => (
-                    <div
-                        key={todo.id}
-                        className={`rounded p-4 border flex flex-col gap-2 h-fit ${getColorClass(
-                            index
-                        )}`}
-                    >
-                        <h1
-                            className={`border rounded px-2 py-[2px] w-fit ${getColorClass(
-                                index
-                            )} bg-opacity-0`}
-                        >
-                            {todo.title}
-                        </h1>
-                        <p className="text-xs font-bold text-color-black/90">
-                            {todo.description}
-                        </p>
-                        <div className="grid grid-cols-1 gap-3">
-                            {/* DISPLAY ALL ITEMS IN EACH TODO */}
-                            {todo.items?.length ? (
-                                todo.items.map((item) => (
-                                    <div
-                                        key={item.id}
-                                        className="rounded border p-4 flex flex-col gap-2 bg-color-black/5 border-color-black/15"
-                                    >
-                                        <h3 className="font-bold text-sm text-color-black">
-                                            {item.name}
-                                        </h3>
-                                        <hr className="border border-dashed border-color-black/15" />
-                                        <div className="flex justify-between items-center">
-                                            <div className="flex items-center gap-[12px]">
-                                                {item.progress_percentage ===
-                                                100 ? (
-                                                    <>
-                                                        <progress
-                                                            value={
-                                                                item.progress_percentage
-                                                            }
-                                                            max="100"
-                                                            className="completed"
-                                                        ></progress>
-                                                        <FaCircleCheck className="text-color-success" />
-                                                    </>
-                                                ) : (
-                                                    <>
-                                                        <progress
-                                                            value={
-                                                                item.progress_percentage
-                                                            }
-                                                            max="100"
-                                                            className="onprogress"
-                                                        ></progress>
-                                                        <p className="text-xs text-color-black">
-                                                            {
-                                                                item.progress_percentage
-                                                            }
-                                                            %
-                                                        </p>
-                                                    </>
-                                                )}
-                                            </div>
-                                            <SurveyDialogMenu
-                                                todo_index={index}
-                                                todosLength={todos.length}
-                                                todo_id={item.todo_id}
-                                                item_id={item.id}
-                                                taskName={item.name}
-                                                progress={`${item.progress_percentage}%`}
-                                            />
-                                        </div>
-                                    </div>
-                                ))
-                            ) : (
-                                <div className="rounded border px-4 py-2 bg-color-black/5 border-color-black/15">
-                                    <p className="text-sm text-color-black">
-                                        No tasks
-                                    </p>
-                                </div>
-                            )}
-                        </div>
-                        <CreateTask todo_id={todo.id} />
-                    </div>
-                ))}
-            </div>
+            <DragDropContext onDragEnd={onDragEnd}>
+                <div className="grid grid-cols-4 gap-4 p-6">
+                    {/* DISPLAY ALL TODOS */}
+                    {todos?.map((todo, index) => (
+                        <DragDropItem
+                            todosLength={todos.length}
+                            todo={todo}
+                            index={index}
+                        />
+                    ))}
+                </div>
+            </DragDropContext>
         </>
     );
 };
