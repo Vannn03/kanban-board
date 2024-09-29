@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import axios from "./utils/axiosInstance";
 import { FaCircleCheck } from "react-icons/fa6";
@@ -13,6 +13,7 @@ type TodosType = {
     created_at: Date;
     updated_at: Date;
     description?: string;
+    items: ItemsType[]; // Include items in TodosType
 };
 
 type ItemsType = {
@@ -27,44 +28,39 @@ type ItemsType = {
 
 const App = () => {
     const [todos, setTodos] = useState<TodosType[]>([]);
-    const [items, setItems] = useState<Record<number, ItemsType[]>>({});
 
-    // Fetch all Todos
-    const fetchTodos = useCallback(async () => {
+    const fetchTodosAndItems = async () => {
         try {
             const res = await axios.get(
                 `${import.meta.env.VITE_RAKAMIN_BASE_URL}/todos`
             );
-            setTodos(res.data);
+            const todosData = res.data;
 
-            // Fetch items for each todo
-            res.data.forEach((todo: TodosType) => {
-                fetchItems(todo.id);
-            });
-        } catch (error) {
-            console.error(error);
-        }
-    }, []);
-
-    useEffect(() => {
-        fetchTodos();
-    }, [fetchTodos]);
-
-    const fetchItems = async (todo_id: number) => {
-        try {
-            const res = await axios.get(
-                `${
-                    import.meta.env.VITE_RAKAMIN_BASE_URL
-                }/todos/${todo_id}/items`
+            const itemsRequests = todosData.map((todo: TodosType) =>
+                axios.get(
+                    `${import.meta.env.VITE_RAKAMIN_BASE_URL}/todos/${
+                        todo.id
+                    }/items`
+                )
             );
-            setItems((prevItems) => ({
-                ...prevItems,
-                [todo_id]: res.data,
-            }));
+            const itemsResponses = await Promise.all(itemsRequests);
+
+            const todosWithItems = todosData.map(
+                (todo: TodosType, index: number) => ({
+                    ...todo,
+                    items: itemsResponses[index].data,
+                })
+            );
+
+            setTodos(todosWithItems);
         } catch (error) {
             console.error(error);
         }
     };
+
+    useEffect(() => {
+        fetchTodosAndItems();
+    }, []);
 
     // Function to get color class based on index
     const getColorClass = (index: number) => {
@@ -104,8 +100,8 @@ const App = () => {
                         </p>
                         <div className="grid grid-cols-1 gap-3">
                             {/* DISPLAY ALL ITEMS IN EACH TODO */}
-                            {items[todo.id]?.length ? (
-                                items[todo.id].map((item) => (
+                            {todo.items?.length ? (
+                                todo.items.map((item) => (
                                     <div
                                         key={item.id}
                                         className="rounded border p-4 flex flex-col gap-2 bg-color-black/5 border-color-black/15"
@@ -148,6 +144,11 @@ const App = () => {
                                             </div>
                                             <SurveyDialogMenu
                                                 todo_index={index}
+                                                todosLength={todos.length}
+                                                todo_id={item.todo_id}
+                                                item_id={item.id}
+                                                taskName={item.name}
+                                                progress={`${item.progress_percentage}%`}
                                             />
                                         </div>
                                     </div>
