@@ -10,6 +10,9 @@ export default {
                 "color-success": "#43936C",
                 "color-black": "#1E1F21",
             },
+            boxShadow: {
+                "dialog-menu": "0px 4px 4px 0px #00000014",
+            },
         },
     },
     plugins: [],
