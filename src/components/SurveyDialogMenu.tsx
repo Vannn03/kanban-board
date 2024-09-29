@@ -1,38 +1,28 @@
 import { useEffect, useRef, useState } from "react";
-import { BiEditAlt } from "react-icons/bi";
-import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
-import { FiTrash2 } from "react-icons/fi";
+import { FaArrowLeft } from "react-icons/fa";
 import { IoIosMore } from "react-icons/io";
-
-type MenusType = {
-    icon: React.ReactElement;
-    name: string;
-};
+import { FaArrowRight } from "react-icons/fa6";
+import MoveTask from "./MoveTask";
+import EditTask from "./modals/EditTask";
+import DeleteTask from "./modals/DeleteTask";
 
 interface SurveyDialogMenuType {
     todo_index: number;
+    todosLength: number;
+    todo_id: number;
+    item_id: number;
+    taskName: string;
+    progress: string;
 }
 
-const SurveyDialogMenu = ({ todo_index }: SurveyDialogMenuType) => {
-    const menus: MenusType[] = [
-        {
-            icon: <FaArrowRight />,
-            name: "Move Right",
-        },
-        {
-            icon: <FaArrowLeft />,
-            name: "Move Left",
-        },
-        {
-            icon: <BiEditAlt />,
-            name: "Edit",
-        },
-        {
-            icon: <FiTrash2 />,
-            name: "Delete",
-        },
-    ];
-
+const SurveyDialogMenu = ({
+    todo_index,
+    todosLength,
+    todo_id,
+    item_id,
+    taskName,
+    progress,
+}: SurveyDialogMenuType) => {
     const [toggleMenu, setToggleMenu] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null); // Reference to the menu container
 
@@ -68,19 +58,31 @@ const SurveyDialogMenu = ({ todo_index }: SurveyDialogMenuType) => {
                         : "opacity-0 pointer-events-none"
                 } transition-opacity z-50`}
             >
-                {menus.map((menu, index) => (
-                    <button
-                        key={index}
-                        className={`flex items-center p-4 gap-4 text-color-black ${
-                            index != 3
-                                ? "hover:text-color-primary"
-                                : "hover:text-color-danger"
-                        } transition-colors`}
-                    >
-                        {menu.icon}
-                        <p className="text-sm font-semibold">{menu.name}</p>
-                    </button>
-                ))}
+                {todo_index < todosLength - 1 && (
+                    <MoveTask
+                        todo_id={todo_id}
+                        item_id={item_id}
+                        newTodoId={todo_id + 1}
+                        menuIcon={<FaArrowRight />}
+                        menuName="Move Right"
+                    />
+                )}
+                {todo_index > 0 && (
+                    <MoveTask
+                        todo_id={todo_id}
+                        item_id={item_id}
+                        newTodoId={todo_id - 1}
+                        menuIcon={<FaArrowLeft />}
+                        menuName="Move Left"
+                    />
+                )}
+                <EditTask
+                    todo_id={todo_id}
+                    item_id={item_id}
+                    taskName={taskName}
+                    progress={progress}
+                />
+                <DeleteTask todo_id={todo_id} item_id={item_id} />
             </div>
         </div>
     );
