@@ -2,6 +2,7 @@ import { HiMiniXMark } from "react-icons/hi2";
 
 interface ModalTemplateType {
     toggleModal: boolean;
+    modalIcon?: React.ReactElement; // Only for delete task
     modalTitle: string;
     closeModal: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
     children: React.ReactNode;
@@ -9,6 +10,7 @@ interface ModalTemplateType {
 
 const ModalTemplate: React.FC<ModalTemplateType> = ({
     toggleModal,
+    modalIcon,
     modalTitle,
     closeModal,
     children,
@@ -32,7 +34,10 @@ const ModalTemplate: React.FC<ModalTemplateType> = ({
             >
                 <div className="rounded-[10px] w-[420px] shadow-modal bg-white">
                     <span className="p-6 rounded-t-[10px] flex items-center justify-between text-color-black">
-                        <h1 className="font-bold text-lg">{modalTitle}</h1>
+                        <span className="flex items-center gap-2">
+                            {modalIcon}
+                            <h1 className="font-bold text-lg">{modalTitle}</h1>
+                        </span>
                         <button onClick={closeModal}>
                             <HiMiniXMark className="text-3xl" />
                         </button>
