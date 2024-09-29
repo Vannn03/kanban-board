@@ -2,9 +2,9 @@ import { useCallback, useEffect, useState } from "react";
 import "./App.css";
 import axios from "./utils/axiosInstance";
 import { FaPlus } from "react-icons/fa";
-import { IoIosMore } from "react-icons/io";
 import { FaCircleCheck } from "react-icons/fa6";
 import { FiPlusCircle } from "react-icons/fi";
+import SurveyDialogMenu from "./components/SurveyDialogMenu";
 
 type TodosType = {
     id: number;
@@ -149,7 +149,9 @@ const App = () => {
                                                     </>
                                                 )}
                                             </div>
-                                            <IoIosMore className="text-2xl text-color-black/70" />
+                                            <SurveyDialogMenu
+                                                todo_index={index}
+                                            />
                                         </div>
                                     </div>
                                 ))
