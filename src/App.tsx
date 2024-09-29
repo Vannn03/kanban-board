@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
 import "./App.css";
 import axios from "./utils/axiosInstance";
-import { FaPlus } from "react-icons/fa";
 import { FaCircleCheck } from "react-icons/fa6";
 import { FiPlusCircle } from "react-icons/fi";
 import SurveyDialogMenu from "./components/SurveyDialogMenu";
+import AddNewGroup from "./components/modals/AddNewGroup";
 
 type TodosType = {
     id: number;
@@ -81,10 +81,7 @@ const App = () => {
         <>
             <header className="px-5 py-[18px] flex items-center gap-2 border border-color-black/40 font-bold">
                 <h1 className="text-lg">Product Roadmap</h1>
-                <button className="px-4 py-1 rounded-lg bg-color-primary text-white flex items-center gap-2 text-xs">
-                    <FaPlus />
-                    Add New Group
-                </button>
+                <AddNewGroup />
             </header>
             <div className="grid grid-cols-4 gap-4 p-6">
                 {/* DISPLAY ALL TODOS */}
