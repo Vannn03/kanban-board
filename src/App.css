@@ -38,3 +38,8 @@ progress {
 .bg-opacity-0 {
     background: none !important;
 }
+
+/* Prevent default styling */
+input, textarea {
+    outline: none !important;
+}
