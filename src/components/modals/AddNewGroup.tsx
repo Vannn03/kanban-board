@@ -2,6 +2,7 @@ import { useState } from "react";
 import { FaPlus } from "react-icons/fa";
 import axios from "../../utils/axiosInstance";
 import { useNavigate } from "react-router-dom";
+import ModalTemplate from "./ModalTemplate";
 
 const AddNewGroup = () => {
     const [toggleModal, setToggleModal] = useState<boolean>(false);
@@ -47,78 +48,55 @@ const AddNewGroup = () => {
             </button>
 
             {/* Background */}
-            <div
-                className={`fixed top-0 left-0 h-full w-full z-40 bg-color-black/40 transition-opacity duration-300 ${
-                    toggleModal
-                        ? "opacity-100"
-                        : "opacity-0 pointer-events-none"
-                }`}
-            />
-
-            <div
-                className={`fixed inset-0 z-50 flex items-center justify-center transition-opacity ${
-                    toggleModal
-                        ? "opacity-100"
-                        : "opacity-0 pointer-events-none"
-                }`}
+            <ModalTemplate
+                toggleModal={toggleModal}
+                modalTitle="Add New Group"
+                closeModal={closeModal}
             >
-                <div className="rounded-[10px] w-[420px] shadow-modal bg-white">
-                    <span className="p-6 rounded-t-[10px]">
-                        <h1 className="font-bold text-lg px-6">
-                            Add new Group
-                        </h1>
-                    </span>
+                <form>
+                    <div className="px-6 flex flex-col gap-5">
+                        <span className="flex flex-col gap-2">
+                            <label htmlFor="title" className="text-xs">
+                                Title
+                            </label>
+                            <input
+                                type="text"
+                                id="title"
+                                placeholder="Type your Group Title"
+                                className="text-sm px-4 py-2 border-2 border-color-black/15 rounded-lg focus:border-color-primary/15 active:border-color-primary font-normal"
+                                onChange={(e) => setTitle(e.target.value)}
+                            />
+                        </span>
+                        <span className="flex flex-col gap-2">
+                            <label htmlFor="description" className="text-xs">
+                                Description
+                            </label>
+                            <textarea
+                                id="description"
+                                placeholder="Type your Group Description"
+                                className="text-sm px-4 py-2 border-2 border-color-black/15 rounded-lg focus:border-color-primary/15 active:border-color-primary font-normal"
+                                onChange={(e) => setDescription(e.target.value)}
+                            ></textarea>
+                        </span>
+                    </div>
 
-                    <form>
-                        <div className="px-6 flex flex-col gap-5">
-                            <span className="flex flex-col gap-2">
-                                <label htmlFor="title" className="text-xs">
-                                    Title
-                                </label>
-                                <input
-                                    type="text"
-                                    id="title"
-                                    placeholder="Type your Group Title"
-                                    className="text-sm px-4 py-2 border-2 border-color-black/15 rounded-lg focus:border-color-primary/15 active:border-color-primary font-normal"
-                                    onChange={(e) => setTitle(e.target.value)}
-                                />
-                            </span>
-                            <span className="flex flex-col gap-2">
-                                <label
-                                    htmlFor="description"
-                                    className="text-xs"
-                                >
-                                    Description
-                                </label>
-                                <textarea
-                                    id="description"
-                                    placeholder="Type your Group Description"
-                                    className="text-sm px-4 py-2 border-2 border-color-black/15 rounded-lg focus:border-color-primary/15 active:border-color-primary font-normal"
-                                    onChange={(e) =>
-                                        setDescription(e.target.value)
-                                    }
-                                ></textarea>
-                            </span>
-                        </div>
-
-                        <div className="flex justify-end items-center rounded-b-[10px] p-6 gap-[10px] font-bold text-sm">
-                            <button
-                                className="px-4 py-1 border text-color-black border-color-black/15 rounded-lg"
-                                onClick={closeModal}
-                            >
-                                Cancel
-                            </button>
-                            <button
-                                className="px-4 py-1 text-white bg-color-primary rounded-lg"
-                                type="submit"
-                                onClick={(e) => addGroup(e)}
-                            >
-                                Submit
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
+                    <div className="flex justify-end items-center rounded-b-[10px] p-6 gap-[10px] font-bold text-sm">
+                        <button
+                            className="px-4 py-1 border text-color-black border-color-black/15 rounded-lg"
+                            onClick={closeModal}
+                        >
+                            Cancel
+                        </button>
+                        <button
+                            className="px-4 py-1 text-white bg-color-primary rounded-lg"
+                            type="submit"
+                            onClick={addGroup}
+                        >
+                            Submit
+                        </button>
+                    </div>
+                </form>
+            </ModalTemplate>
         </>
     );
 };
