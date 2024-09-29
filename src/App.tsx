@@ -2,9 +2,9 @@ import { useCallback, useEffect, useState } from "react";
 import "./App.css";
 import axios from "./utils/axiosInstance";
 import { FaCircleCheck } from "react-icons/fa6";
-import { FiPlusCircle } from "react-icons/fi";
 import SurveyDialogMenu from "./components/SurveyDialogMenu";
 import AddNewGroup from "./components/modals/AddNewGroup";
+import CreateTask from "./components/modals/CreateTask";
 
 type TodosType = {
     id: number;
@@ -160,10 +160,7 @@ const App = () => {
                                 </div>
                             )}
                         </div>
-                        <button className="w-fit flex items-center gap-[5px] text-sm text-color-black">
-                            <FiPlusCircle className="text-xl" />
-                            New Task
-                        </button>
+                        <CreateTask todo_id={todo.id} />
                     </div>
                 ))}
             </div>
