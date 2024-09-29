@@ -12,6 +12,7 @@ export default {
             },
             boxShadow: {
                 "dialog-menu": "0px 4px 4px 0px #00000014",
+                modal: "0px 4px 8px 0px #0000001A",
             },
         },
     },
