@@ -3,17 +3,13 @@ import { FaPlus } from "react-icons/fa";
 import axios from "../../utils/axiosInstance";
 import { useNavigate } from "react-router-dom";
 import ModalTemplate from "./ModalTemplate";
+import { closeModal, openModal } from "../../utils/toggleModal";
 
 const AddNewGroup = () => {
     const [toggleModal, setToggleModal] = useState<boolean>(false);
     const [title, setTitle] = useState<string>("");
     const [description, setDescription] = useState<string>("");
     const navigate = useNavigate();
-
-    const closeModal = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        e.preventDefault();
-        setToggleModal(false);
-    };
 
     const addGroup = async (
         e: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -41,7 +37,7 @@ const AddNewGroup = () => {
         <>
             <button
                 className="px-4 py-1 rounded-lg bg-color-primary text-white flex items-center gap-2 text-xs"
-                onClick={() => setToggleModal(true)}
+                onClick={(e) => openModal(e, setToggleModal)}
             >
                 <FaPlus />
                 Add New Group
@@ -51,7 +47,7 @@ const AddNewGroup = () => {
             <ModalTemplate
                 toggleModal={toggleModal}
                 modalTitle="Add New Group"
-                closeModal={closeModal}
+                closeModal={(e) => closeModal(e, setToggleModal)}
             >
                 <form>
                     <div className="px-6 flex flex-col gap-5">
@@ -89,7 +85,7 @@ const AddNewGroup = () => {
                     <div className="flex justify-end items-center rounded-b-[10px] px-6 pb-6 pt-8 gap-[10px] font-bold text-sm">
                         <button
                             className="px-4 py-1 border text-color-black-primary border-color-white-tertiary shadow-cancel-button rounded-lg"
-                            onClick={closeModal}
+                            onClick={(e) => closeModal(e, setToggleModal)}
                         >
                             Cancel
                         </button>
