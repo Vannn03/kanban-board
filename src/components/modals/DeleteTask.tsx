@@ -41,7 +41,7 @@ const DeleteTask = ({ todo_id, item_id }: DeleteTaskType) => {
     return (
         <>
             <button
-                className="flex items-center p-4 gap-4 text-color-black hover:text-color-danger transition-colors"
+                className="flex items-center px-4 py-[6px] gap-4 text-color-black-menu hover:text-color-danger transition-colors"
                 onClick={() => setToggleModal(true)}
             >
                 <FiTrash2 />
@@ -57,13 +57,13 @@ const DeleteTask = ({ todo_id, item_id }: DeleteTaskType) => {
                 modalTitle="Delete Task"
                 closeModal={closeModal}
             >
-                <p className="text-sm -mt-2 px-6 text-color-black">
+                <p className="text-sm -mt-2 px-6 text-color-black-secondary">
                     Are you sure want to delete this task? your action can’t be
                     reverted.
                 </p>
                 <div className="flex justify-end items-center rounded-b-[10px] px-6 pb-6 pt-4 gap-[10px] font-bold text-sm">
                     <button
-                        className="px-4 py-1 border text-color-black border-color-black/15 rounded-lg"
+                        className="px-4 py-1 border text-color-black-primary border-color-white-tertiary shadow-cancel-button rounded-lg"
                         onClick={closeModal}
                     >
                         Cancel

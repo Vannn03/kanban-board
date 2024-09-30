@@ -56,33 +56,39 @@ const AddNewGroup = () => {
                 <form>
                     <div className="px-6 flex flex-col gap-5">
                         <span className="flex flex-col gap-2">
-                            <label htmlFor="title" className="text-xs">
+                            <label
+                                htmlFor="title"
+                                className="text-xs font-bold"
+                            >
                                 Title
                             </label>
                             <input
                                 type="text"
                                 id="title"
                                 placeholder="Type your Group Title"
-                                className="text-sm px-4 py-2 border-2 border-color-black/15 rounded-lg focus:border-color-primary/15 active:border-color-primary font-normal"
+                                className="text-sm px-4 py-2 border-2 border-color-white-tertiary rounded-lg focus:border-color-primary/20 active:border-color-primary font-normal"
                                 onChange={(e) => setTitle(e.target.value)}
                             />
                         </span>
                         <span className="flex flex-col gap-2">
-                            <label htmlFor="description" className="text-xs">
+                            <label
+                                htmlFor="description"
+                                className="text-xs font-bold"
+                            >
                                 Description
                             </label>
                             <textarea
                                 id="description"
                                 placeholder="Type your Group Description"
-                                className="text-sm px-4 py-2 border-2 border-color-black/15 rounded-lg focus:border-color-primary/15 active:border-color-primary font-normal"
+                                className="text-sm px-4 py-2 border-2 border-color-white-tertiary rounded-lg focus:border-color-primary/20 active:border-color-primary font-normal"
                                 onChange={(e) => setDescription(e.target.value)}
                             ></textarea>
                         </span>
                     </div>
 
-                    <div className="flex justify-end items-center rounded-b-[10px] p-6 gap-[10px] font-bold text-sm">
+                    <div className="flex justify-end items-center rounded-b-[10px] px-6 pb-6 pt-8 gap-[10px] font-bold text-sm">
                         <button
-                            className="px-4 py-1 border text-color-black border-color-black/15 rounded-lg"
+                            className="px-4 py-1 border text-color-black-primary border-color-white-tertiary shadow-cancel-button rounded-lg"
                             onClick={closeModal}
                         >
                             Cancel

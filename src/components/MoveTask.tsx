@@ -40,7 +40,7 @@ const MoveRight = ({
 
     return (
         <button
-            className="flex items-center p-4 gap-4 text-color-black hover:text-color-primary transition-colors"
+            className="flex items-center px-4 py-[6px] gap-4 text-color-black-menu hover:text-color-primary transition-colors"
             onClick={handleMoveRight}
         >
             {menuIcon}
