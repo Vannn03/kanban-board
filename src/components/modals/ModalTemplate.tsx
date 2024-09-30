@@ -18,9 +18,9 @@ const ModalTemplate: React.FC<ModalTemplateType> = ({
     return (
         <>
             <div
-                className={`fixed top-0 left-0 h-full w-full z-40 bg-color-black-secondary/40 transition-opacity duration-300 ${
+                className={`fixed top-0 left-0 h-full w-full z-50 bg-color-black-secondary/40 transition-opacity ${
                     toggleModal
-                        ? "opacity-100"
+                        ? "opacity-100 pointer-events-auto"
                         : "opacity-0 pointer-events-none"
                 }`}
             />
