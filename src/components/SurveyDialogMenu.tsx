@@ -45,12 +45,12 @@ const SurveyDialogMenu = ({
 
     return (
         <div className="relative" ref={menuRef}>
-            <span onClick={() => setToggleMenu((prev) => !prev)}>
-                <IoIosMore className="text-2xl text-color-black/70 cursor-pointer" />
+            <span onClick={() => setToggleMenu((prev) => !prev)} className="">
+                <IoIosMore className="text-2xl text-color-black-tertiary cursor-pointer hover:bg-color-white-tertiary transition-colors rounded" />
             </span>
 
             <div
-                className={`rounded-lg px-2 bg-white shadow-dialog-menu flex flex-col w-80 absolute top-8 ${
+                className={`rounded-lg px-2 bg-white shadow-dialog-menu flex flex-col w-80 absolute top-8 py-2 ${
                     todo_index % 4 === 3 ? "right-0" : "left-0"
                 } ${
                     toggleMenu

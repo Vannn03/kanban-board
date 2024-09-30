@@ -14,10 +14,10 @@ const DragDropItem = ({ todosLength, todo, index }: DragDropItemType) => {
     // Function to get color class based on index
     const getColorClass = (index: number) => {
         const colors = [
-            "bg-color-primary/5 text-color-primary border-color-primary",
-            "bg-color-secondary/5 text-color-secondary border-color-secondary",
-            "bg-color-danger/5 text-color-danger border-color-danger",
-            "bg-color-success/5 text-color-success border-color-success",
+            "bg-color-surface-primary text-color-primary border-color-primary",
+            "bg-color-surface-secondary text-color-secondary border-color-border-secondary",
+            "bg-color-surface-danger text-color-danger border-color-border-danger",
+            "bg-color-surface-success text-color-success border-color-border-success",
         ];
         return colors[index % colors.length];
     };
@@ -33,13 +33,13 @@ const DragDropItem = ({ todosLength, todo, index }: DragDropItemType) => {
                     )}`}
                 >
                     <h1
-                        className={`border rounded px-2 py-[2px] w-fit ${getColorClass(
+                        className={`border rounded px-2 text-xs py-[2px] w-fit ${getColorClass(
                             index
                         )} bg-opacity-0`}
                     >
                         {todo.title}
                     </h1>
-                    <p className="text-xs font-bold text-color-black/90">
+                    <p className="text-xs font-bold text-color-black-secondary">
                         {todo.description}
                     </p>
                     <div className="grid grid-cols-1 gap-3">
@@ -56,12 +56,12 @@ const DragDropItem = ({ todosLength, todo, index }: DragDropItemType) => {
                                             ref={provided.innerRef}
                                             {...provided.draggableProps}
                                             {...provided.dragHandleProps}
-                                            className="rounded border p-4 flex flex-col gap-2 bg-color-black/5 border-color-black/15"
+                                            className="rounded border p-4 flex flex-col gap-2 bg-color-white-secondary border-color-white-primary"
                                         >
-                                            <h3 className="font-bold text-sm text-color-black">
+                                            <h3 className="font-bold text-sm text-color-black-primary">
                                                 {item.name}
                                             </h3>
-                                            <hr className="border border-dashed border-color-black/15" />
+                                            <hr className="border border-dashed border-color-white-primary" />
                                             <div className="flex justify-between items-center">
                                                 <div className="flex items-center gap-[12px]">
                                                     {item.progress_percentage ===
@@ -85,7 +85,7 @@ const DragDropItem = ({ todosLength, todo, index }: DragDropItemType) => {
                                                                 max="100"
                                                                 className="onprogress"
                                                             ></progress>
-                                                            <p className="text-xs text-color-black">
+                                                            <p className="text-xs text-color-black-tertiary">
                                                                 {
                                                                     item.progress_percentage
                                                                 }
@@ -108,8 +108,8 @@ const DragDropItem = ({ todosLength, todo, index }: DragDropItemType) => {
                                 </Draggable>
                             ))
                         ) : (
-                            <div className="rounded border px-4 py-2 bg-color-black/5 border-color-black/15">
-                                <p className="text-sm text-color-black">
+                            <div className="rounded border px-4 py-2 bg-color-white-secondary border-color-white-primary">
+                                <p className="text-sm text-color-black-tertiary">
                                     No tasks
                                 </p>
                             </div>

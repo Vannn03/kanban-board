@@ -51,10 +51,10 @@ const CreateTask = ({ todo_id }: CreateTaskType) => {
     return (
         <>
             <button
-                className="w-fit flex items-center gap-[5px] text-sm text-color-black"
+                className="w-fit flex items-center gap-[5px] text-xs text-color-black-primary"
                 onClick={() => setToggleModal(true)}
             >
-                <FiPlusCircle className="text-xl" />
+                <FiPlusCircle className="text-lg" />
                 New Task
             </button>
 
@@ -65,27 +65,27 @@ const CreateTask = ({ todo_id }: CreateTaskType) => {
                 closeModal={closeModal}
             >
                 <form>
-                    <div className="px-6 flex flex-col gap-5 text-color-black">
-                        <span className="flex flex-col gap-2">
-                            <label htmlFor="taskName" className="text-xs">
+                    <div className="px-6 flex flex-col gap-5 text-xs">
+                        <span className="flex flex-col gap-2 text-color-black-secondary">
+                            <label htmlFor="taskName" className="font-bold">
                                 taskName
                             </label>
                             <input
                                 type="text"
                                 id="taskName"
                                 placeholder="Type your Task"
-                                className="text-sm px-4 py-2 border-2 border-color-black/15 rounded-lg focus:border-color-primary/15 active:border-color-primary font-normal"
+                                className="px-4 py-2 border-2 border-color-white-tertiary rounded-lg focus:border-color-primary/20 active:border-color-primary font-normal"
                                 onChange={(e) => setTaskName(e.target.value)}
                             />
                         </span>
-                        <span className="flex flex-col gap-2">
-                            <label htmlFor="progress" className="text-xs">
+                        <span className="flex flex-col gap-2 text-color-black-secondary">
+                            <label htmlFor="progress" className="font-bold">
                                 progress
                             </label>
                             <input
                                 id="progress"
                                 placeholder="70%"
-                                className="text-sm px-4 py-2 border-2 border-color-black/15 rounded-lg focus:border-color-primary/15 active:border-color-primary font-normal"
+                                className="px-4 py-2 border-2 border-color-white-tertiary rounded-lg focus:border-color-primary/20 active:border-color-primary font-normal"
                                 onChange={(e) => setProgress(e.target.value)}
                             />
                         </span>
@@ -93,7 +93,7 @@ const CreateTask = ({ todo_id }: CreateTaskType) => {
 
                     <div className="flex justify-end items-center rounded-b-[10px] p-6 gap-[10px] font-bold text-sm">
                         <button
-                            className="px-4 py-1 border text-color-black border-color-black/15 rounded-lg"
+                            className="px-4 py-1 border text-color-black-primary border-color-white-tertiary shadow-cancel-button rounded-lg"
                             onClick={closeModal}
                         >
                             Cancel

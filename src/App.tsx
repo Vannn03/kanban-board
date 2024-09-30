@@ -112,12 +112,15 @@ const App = () => {
 
     return (
         <>
-            <header className="px-5 py-[18px] flex items-center gap-2 border border-color-black/40 font-bold">
-                <h1 className="text-lg">Product Roadmap</h1>
+            <header className="px-5 py-[18px] flex items-center gap-[10px] font-bold w-[1400px] mx-auto">
+                <h1 className="text-lg text-color-black-primary">
+                    Product Roadmap
+                </h1>
                 <AddNewGroup />
             </header>
+            <hr className="border-color-black/40" />
             <DragDropContext onDragEnd={onDragEnd}>
-                <div className="grid grid-cols-4 gap-4 p-6">
+                <div className="grid grid-cols-4 gap-4 p-6  w-[1400px] mx-auto">
                     {/* DISPLAY ALL TODOS */}
                     {todos?.map((todo, index) => (
                         <DragDropItem

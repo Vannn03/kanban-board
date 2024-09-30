@@ -1,9 +1,10 @@
 /* Customized Progress bar */
 progress {
-    width: 280px;
+    width: 175px;
+    height: 16px;
 }
 .onprogress::-webkit-progress-bar {
-    background-color: lightgrey;
+    background-color: #ededed;
     border-radius: 9999px;
     -webkit-border-radius: 9999px;
     -moz-border-radius: 9999px;
@@ -17,9 +18,11 @@ progress {
     -moz-border-radius: 9999px;
     -ms-border-radius: 9999px;
     -o-border-radius: 9999px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
 }
 .completed::-webkit-progress-bar {
-    background-color: #43936c;
+    background-color: #43936C;
     border-radius: 9999px;
     -webkit-border-radius: 9999px;
     -moz-border-radius: 9999px;
